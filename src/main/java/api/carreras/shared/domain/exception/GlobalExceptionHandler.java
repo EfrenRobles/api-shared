@@ -4,6 +4,7 @@ import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import api.carreras.shared.domain.Logger;
 import api.carreras.shared.domain.response.OnResponse;
 
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return OnResponse.onError(errors, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    // error handle for @Valid
+    // Errors handle for @Valid
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
         MethodArgumentNotValidException ex,
@@ -45,6 +47,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         HttpStatus status,
         WebRequest request
     ) {
+
+        Logger.log("handleMethodArgumentNotValid");
+
         List<String> errors = ex
             .getBindingResult()
             .getFieldErrors()
@@ -62,8 +67,25 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         HttpStatus status,
         WebRequest request
     ) {
+        Logger.log("handleTypeMismatch");
+
         List<String> errors = new ArrayList<>();
         errors.add(ex.getErrorCode() + ": " + ex.getRequiredType() + " by " + ex.getValue());
+
+        return OnResponse.onError(errors, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(
+        HttpMessageNotReadableException ex,
+        HttpHeaders headers,
+        HttpStatus status,
+        WebRequest request
+    ) {
+        Logger.log("handleTypeMismatch");
+
+        List<String> errors = new ArrayList<>();
+        errors.add(ex.getCause() + ": " + ex.getMessage());
 
         return OnResponse.onError(errors, HttpStatus.UNPROCESSABLE_ENTITY);
     }
