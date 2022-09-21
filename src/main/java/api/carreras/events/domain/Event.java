@@ -39,6 +39,11 @@ public class Event {
         this.eventDate = eventDate;
     }
 
+    public static Event build(Long eventId, String eventDescription, String eventLocation, Date eventDate) {
+        
+        return new Event(eventId, eventDescription, eventLocation, eventDate);
+    }
+    
     public Long getEventId() {
         return eventId;
     }

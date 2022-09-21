@@ -2,9 +2,12 @@ package api.carreras.events.domain;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 public interface EventRepository {
 
-    public List<Event> findAll();
+    public Page<Event> findAll(Pageable pageable);
 
     public Event findById(Long eventId);
 

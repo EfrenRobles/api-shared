@@ -10,21 +10,24 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class UpdateEventRequest {
 
-    @NotBlank(message = "The event descrition is required.")
+    @Nullable
     @Length(min = 10, max = 64, message = "The length of user name must be between 10 and 64 characters.")
     String eventDescription;
 
-    @NotBlank(message = "The event location is required.")
+    @Nullable
     @Length(min = 4, max = 64, message = "The length of user name must be between 4 and 64 characters.")
     String eventLocation;
 
-    @NotNull(message = "The event date is required.")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
+    @Nullable
+    @DateTimeFormat(iso = ISO.DATE)
     Date eventDate;
 
     public UpdateEventRequest() {

@@ -3,6 +3,8 @@ package api.carreras.events.infrastructure.persistence.postgresql;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import api.carreras.events.domain.Event;
@@ -15,9 +17,9 @@ public class EventReposirotyImpl implements DomainPersistence {
     private EventRepository eventRepository;
     
     @Override
-    public List<Event> findAll() {
-        // TODO Auto-generated method stub
-        return null;
+    public Page<Event> findAll(Pageable pageable) {
+
+        return eventRepository.findAll(pageable);
     }
 
     @Override

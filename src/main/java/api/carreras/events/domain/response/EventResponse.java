@@ -23,6 +23,11 @@ public class EventResponse {
         this.eventLocation = eventLocation;
         this.eventDate = eventDate;
     }
+    
+    public static EventResponse build(Long eventId, String eventDescription, String eventLocation, Date eventDate) {
+    
+        return new EventResponse(eventId, eventDescription, eventLocation, eventDate);
+    }
 
     public Long getEventId() {
         return eventId;
