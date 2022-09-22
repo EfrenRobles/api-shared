@@ -4,7 +4,7 @@ import java.util.List;
 
 public class PaginationResponse {
 
-    private List<?> content;
+    private List<?> data;
 
     private Short page;
 
@@ -16,12 +16,12 @@ public class PaginationResponse {
 
     private Boolean last;
 
-    public List<?> getContent() {
-        return content;
+    public List<?> getData() {
+        return data;
     }
 
-    public void setContent(List<?> content) {
-        this.content = content;
+    public void setData(List<?> content) {
+        this.data = content;
     }
 
     public Short getPage() {
