@@ -33,7 +33,7 @@ public class EventController {
         @RequestParam(value = "page", defaultValue = PaginationConstant.PAGE_DEFAULT_VALUE, required = false) Short page,
         @RequestParam(value = "limit", defaultValue = PaginationConstant.LIMIT_DEFAULT_VALUE, required = false) Byte limit,
         @RequestParam(value = "sortBy", defaultValue = "eventId", required = false) String sortBy,
-        @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
+        @RequestParam(value = "sortDir", defaultValue = PaginationConstant.SORT_ASC, required = false) String sortDir
     ) {
 
         return eventService.getEventList(page, limit, sortBy, sortDir);
@@ -55,10 +55,7 @@ public class EventController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public Object postEvent(
-        @Valid
-        @RequestBody AddEventRequest event
-    ) throws Exception {
+    public Object postEvent(@Valid @RequestBody AddEventRequest event) throws Exception {
 
         return eventService.addEvent(event);
     }
@@ -67,8 +64,7 @@ public class EventController {
     @PatchMapping
     public Object patchEvent(
         @RequestParam(value = "eventId") Long eventId,
-        @Valid
-        @RequestBody UpdateEventRequest event
+        @Valid @RequestBody UpdateEventRequest event
     ) throws Exception {
 
         return eventService.updateEvent(eventId, event);

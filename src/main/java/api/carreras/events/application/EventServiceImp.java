@@ -9,11 +9,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import api.carreras.events.domain.Builder;
 import api.carreras.events.domain.Event;
 import api.carreras.events.domain.EventRepository;
 import api.carreras.events.domain.request.AddEventRequest;
 import api.carreras.events.domain.request.UpdateEventRequest;
 import api.carreras.events.domain.response.EventResponse;
+import api.carreras.shared.domain.Logger;
+import api.carreras.shared.domain.exception.ServiceException;
 import api.carreras.shared.domain.response.OnResponse;
 import api.carreras.shared.domain.response.PaginationResponse;
 
@@ -57,22 +60,34 @@ public class EventServiceImp implements EventService {
             .map(x -> mapToEventDto(x))
             .toList();
 
-        PaginationResponse<?> result = PaginationResponse.build(
-            content,
-            (short) events.getNumber(),
-            (byte) events.getSize(),
-            (short) events.getTotalElements(),
-            (short) events.getTotalPages(),
-            events.isLast()
-        );
+        PaginationResponse result = Builder.set(PaginationResponse.class)
+            .with(p -> p.setContent(content))
+            .with(p -> p.setPage((short) events.getNumber()))
+            .with(p -> p.setLimit((byte) events.getSize()))
+            .with(p -> p.setTotalItems((short) events.getTotalElements()))
+            .with(p -> p.setTotalPages((short) events.getTotalPages()))
+            .with(p -> p.setLast(events.isLast()))
+            .build();
 
         return OnResponse.onSuccess(result, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<?> addEvent(AddEventRequest data) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+
+        Event event = Builder.set(Event.class)
+            .with(p -> p.setEventDescription(data.getEventDescription()))
+            .with(p -> p.setEventLocation(data.getEventLocation()))
+            .with(p -> p.setEventDate(data.getEventDate()))
+            .build();
+
+        event = eventRepository.save(event);
+        
+        if (event == null) {
+            throw new ServiceException("The event location and description are already registered");
+        }
+        
+        return OnResponse.onSuccess(event, HttpStatus.CREATED);
     }
 
     @Override
@@ -89,22 +104,21 @@ public class EventServiceImp implements EventService {
 
     private EventResponse mapToEventDto(Event event) {
 
-        return EventResponse.build(
-            event.getEventId(),
-            event.getEventDescription(),
-            event.getEventLocation(),
-            event.getEventDate()
-        );
+        return Builder.set(EventResponse.class)
+            .with(e -> e.setEventId(event.getEventId()))
+            .with(e -> e.setEventDescription(event.getEventDescription()))
+            .with(e -> e.setEventLocation(event.getEventLocation()))
+            .with(e -> e.setEventDate(event.getEventDate()))
+            .build();
     }
 
     private Event mapToEvent(EventResponse eventDto) {
 
-        return Event.build(
-            null,
-            eventDto.getEventDescription(),
-            eventDto.getEventLocation(),
-            eventDto.getEventDate()
-        );
+        return Builder.set(Event.class)
+            .with(p -> p.setEventDescription(eventDto.getEventDescription()))
+            .with(p -> p.setEventLocation(eventDto.getEventLocation()))
+            .with(p -> p.setEventDate(eventDto.getEventDate()))
+            .build();
     }
 
 }

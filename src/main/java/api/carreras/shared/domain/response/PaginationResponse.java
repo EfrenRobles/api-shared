@@ -2,9 +2,9 @@ package api.carreras.shared.domain.response;
 
 import java.util.List;
 
-public class PaginationResponse<E> {
+public class PaginationResponse {
 
-    private List<E> content;
+    private List<?> content;
 
     private Short page;
 
@@ -15,50 +15,52 @@ public class PaginationResponse<E> {
     private Short totalPages;
 
     private Boolean last;
-    
-    public PaginationResponse(List<E> data, Short page, Byte limit, Short totalItems, Short totalPages, Boolean last) {
-        super();
-        this.content = data;
-        this.page = page;
-        this.limit = limit;
-        this.totalItems = totalItems;
-        this.totalPages = totalPages;
-        this.last = last;
-    }
 
-    public static PaginationResponse<?> build(
-        List<?> data,
-        Short page,
-        Byte limit,
-        Short totalItems,
-        Short totalPages,
-        Boolean last
-    ) {
-
-        return new PaginationResponse<>(data, page, limit, totalItems, totalPages, last);
-    }
-
-    public List<E> getContent() {
+    public List<?> getContent() {
         return content;
+    }
+
+    public void setContent(List<?> content) {
+        this.content = content;
     }
 
     public Short getPage() {
         return page;
     }
 
+    public void setPage(Short page) {
+        this.page = page;
+    }
+
     public Byte getLimit() {
         return limit;
+    }
+
+    public void setLimit(Byte limit) {
+        this.limit = limit;
     }
 
     public Short getTotalItems() {
         return totalItems;
     }
 
+    public void setTotalItems(Short totalItems) {
+        this.totalItems = totalItems;
+    }
+
     public Short getTotalPages() {
         return totalPages;
     }
 
+    public void setTotalPages(Short totalPages) {
+        this.totalPages = totalPages;
+    }
+
     public Boolean getLast() {
         return last;
-    }   
+    }
+
+    public void setLast(Boolean last) {
+        this.last = last;
+    }
 }

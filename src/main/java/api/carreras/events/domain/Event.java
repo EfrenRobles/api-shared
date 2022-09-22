@@ -27,22 +27,6 @@ public class Event {
 
     @Column(name = "event_date")
     Date eventDate;
-
-    public Event() {
-
-    }
-
-    public Event(Long eventId, String eventDescription, String eventLocation, Date eventDate) {
-        this.eventId = eventId;
-        this.eventDescription = eventDescription;
-        this.eventLocation = eventLocation;
-        this.eventDate = eventDate;
-    }
-
-    public static Event build(Long eventId, String eventDescription, String eventLocation, Date eventDate) {
-        
-        return new Event(eventId, eventDescription, eventLocation, eventDate);
-    }
     
     public Long getEventId() {
         return eventId;
