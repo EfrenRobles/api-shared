@@ -61,7 +61,7 @@ public class EventServiceImp implements EventService {
             .toList();
 
         PaginationResponse result = Builder.set(PaginationResponse.class)
-            .with(p -> p.setContent(content))
+            .with(p -> p.setData(content))
             .with(p -> p.setPage((short) events.getNumber()))
             .with(p -> p.setLimit((byte) events.getSize()))
             .with(p -> p.setTotalItems((short) events.getTotalElements()))
@@ -69,7 +69,7 @@ public class EventServiceImp implements EventService {
             .with(p -> p.setLast(events.isLast()))
             .build();
 
-        return OnResponse.onSuccess(result, HttpStatus.OK);
+        return OnResponse.onSuccessPagination(result, HttpStatus.OK);
     }
 
     @Override
