@@ -1,10 +1,12 @@
 package api.carreras.events.infrastructure.controller;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,7 +43,8 @@ public class EventController {
         @RequestParam(value = "eventId", required = false) Long eventId,
         @RequestParam(value = "eventLocation", required = false) String eventLocation,
         @RequestParam(value = "eventDescription", required = false) String eventDescription,
-        @RequestParam(value = "eventDate", required = false) Date eventDate
+        @RequestParam(value = "eventDate", required = false)
+        @DateTimeFormat(iso = ISO.DATE) LocalDate eventDate
 
     ) {
         EventResponse request = Builder.set(EventResponse.class)
@@ -64,8 +67,7 @@ public class EventController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public Object postEvent(
-        @Valid
-        @RequestBody AddEventRequest event
+        @Valid @RequestBody AddEventRequest event
     ) throws Exception {
 
         return eventService.addEvent(event);
@@ -75,11 +77,12 @@ public class EventController {
     @PatchMapping
     public Object patchEvent(
         @RequestParam(value = "eventId") Long eventId,
-        @Valid
-        @RequestBody UpdateEventRequest event
+        @Valid @RequestBody UpdateEventRequest event
     ) throws Exception {
 
-        return eventService.updateEvent(eventId, event);
+        event.setEventId(eventId);
+
+        return eventService.updateEvent(event);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

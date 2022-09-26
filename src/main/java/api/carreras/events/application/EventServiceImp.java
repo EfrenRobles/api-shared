@@ -45,9 +45,7 @@ public class EventServiceImp implements EventService {
             throw new ServiceException("Event not found");
         }
 
-        EventResponse response = mapToEventDto(event);
-
-        return OnResponse.onSuccess(response, HttpStatus.OK);
+        return OnResponse.onSuccess(mapToEventDto(event), HttpStatus.OK);
     }
 
     @Override
@@ -108,15 +106,47 @@ public class EventServiceImp implements EventService {
             throw new ServiceException("The event location and description are already registered");
         }
 
-        EventResponse response = mapToEventDto(event);
-
-        return OnResponse.onSuccess(response, HttpStatus.CREATED);
+        return OnResponse.onSuccess(mapToEventDto(event), HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<?> updateEvent(Long eventId, UpdateEventRequest data) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+    public ResponseEntity<?> updateEvent(UpdateEventRequest data) throws Exception {
+
+        Event event = eventRepository.findByEventId(data.getEventId());
+        Boolean needUpdate = false;
+
+        if (event == null) {
+            throw new ServiceException("Event not found");
+        }
+
+        if (data.getEventLocation() != null && !data.getEventLocation().equalsIgnoreCase(event.getEventLocation())) {
+            event.setEventLocation(data.getEventLocation());
+            needUpdate = true;
+        }
+
+        if (data.getEventDescription() != null &&
+            !data.getEventDescription().equalsIgnoreCase(event.getEventDescription())) {
+            event.setEventDescription(data.getEventDescription());
+            needUpdate = true;
+        }
+
+        if (data.getEventDate() != null && !data.getEventDate().equals(event.getEventDate())) {
+
+            event.setEventDate(data.getEventDate());
+            needUpdate = true;
+        }
+
+        if (!needUpdate) {
+            return OnResponse.onSuccess(mapToEventDto(event), HttpStatus.OK);
+        }
+
+        event = eventRepository.save(event);
+
+        if (event == null) {
+            throw new ServiceException("The event location and description are already registered");
+        }
+
+        return OnResponse.onSuccess(mapToEventDto(event), HttpStatus.OK);
     }
 
     @Override

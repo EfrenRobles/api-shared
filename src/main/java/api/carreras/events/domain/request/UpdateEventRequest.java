@@ -1,20 +1,11 @@
 package api.carreras.events.domain.request;
 
-import java.sql.Date;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.lang.Nullable;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class UpdateEventRequest {
 
@@ -31,13 +22,13 @@ public class UpdateEventRequest {
 
     @Nullable
     @DateTimeFormat(iso = ISO.DATE)
-    Date eventDate;
+    LocalDate eventDate;
 
     public UpdateEventRequest() {
         super();
     }
 
-    public UpdateEventRequest(String eventDescription, String eventLocation, Date eventDate) {
+    public UpdateEventRequest(String eventDescription, String eventLocation, LocalDate eventDate) {
         super();
         this.eventDescription = eventDescription;
         this.eventLocation = eventLocation;
@@ -68,11 +59,11 @@ public class UpdateEventRequest {
         this.eventLocation = eventLocation;
     }
 
-    public Date getEventDate() {
+    public LocalDate getEventDate() {
         return eventDate;
     }
 
-    public void setEventDate(Date eventDate) {
+    public void setEventDate(LocalDate eventDate) {
         this.eventDate = eventDate;
     }
 

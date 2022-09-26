@@ -1,6 +1,7 @@
 package api.carreras.events.domain;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -26,8 +27,8 @@ public class Event {
     String eventLocation;
 
     @Column(name = "event_date")
-    Date eventDate;
-    
+    LocalDate eventDate;
+
     public Long getEventId() {
         return eventId;
     }
@@ -52,11 +53,11 @@ public class Event {
         this.eventLocation = eventLocation;
     }
 
-    public Date getEventDate() {
+    public LocalDate getEventDate() {
         return eventDate;
     }
 
-    public void setEventDate(Date eventDate) {
+    public void setEventDate(LocalDate eventDate) {
         this.eventDate = eventDate;
     }
 

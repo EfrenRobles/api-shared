@@ -16,7 +16,7 @@ public interface EventService {
 
     public ResponseEntity<?> addEvent(AddEventRequest data) throws Exception;
 
-    public ResponseEntity<?> updateEvent(Long eventId, UpdateEventRequest data) throws Exception;
+    public ResponseEntity<?> updateEvent(UpdateEventRequest data) throws Exception;
 
     public ResponseEntity<?> deleteEvent(Long eventId) throws Exception;
 }

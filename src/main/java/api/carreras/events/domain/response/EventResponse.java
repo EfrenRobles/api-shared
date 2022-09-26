@@ -1,6 +1,6 @@
 package api.carreras.events.domain.response;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class EventResponse {
 
@@ -10,22 +10,22 @@ public class EventResponse {
 
     String eventLocation;
 
-    Date eventDate;
+    LocalDate eventDate;
 
     public EventResponse() {
         super();
     }
 
-    public EventResponse(Long eventId, String eventDescription, String eventLocation, Date eventDate) {
+    public EventResponse(Long eventId, String eventDescription, String eventLocation, LocalDate eventDate) {
         super();
         this.eventId = eventId;
         this.eventDescription = eventDescription;
         this.eventLocation = eventLocation;
         this.eventDate = eventDate;
     }
-    
-    public static EventResponse build(Long eventId, String eventDescription, String eventLocation, Date eventDate) {
-    
+
+    public static EventResponse build(Long eventId, String eventDescription, String eventLocation, LocalDate eventDate) {
+
         return new EventResponse(eventId, eventDescription, eventLocation, eventDate);
     }
 
@@ -53,11 +53,11 @@ public class EventResponse {
         this.eventLocation = eventLocation;
     }
 
-    public Date getEventDate() {
+    public LocalDate getEventDate() {
         return eventDate;
     }
 
-    public void setEventDate(Date eventDate) {
+    public void setEventDate(LocalDate eventDate) {
         this.eventDate = eventDate;
     }
 
