@@ -151,8 +151,16 @@ public class EventServiceImp implements EventService {
 
     @Override
     public ResponseEntity<?> deleteEvent(Long eventId) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+
+        Event event = eventRepository.findByEventId(eventId);
+
+        if (event == null) {
+            throw new ServiceException("Event not found");
+        }
+
+        eventRepository.delete(event);
+
+        return OnResponse.onSuccess(eventId, HttpStatus.NO_CONTENT);
     }
 
     private EventResponse mapToEventDto(Event event) {

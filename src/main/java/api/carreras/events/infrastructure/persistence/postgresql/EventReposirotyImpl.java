@@ -103,7 +103,15 @@ public class EventReposirotyImpl implements DomainPersistence {
 
     @Override
     public void delete(Event event) throws Exception {
-        // TODO Auto-generated method stub
+
+        try {
+            eventRepository.delete(event);
+        } catch (Exception e) {
+            Logger.log(e.getMessage());
+
+            throw new RepositoryException("Internal Server Error");
+        }
+
 
     }
 
