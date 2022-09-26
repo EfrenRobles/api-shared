@@ -4,6 +4,8 @@ import java.util.List;
 
 public class PaginationResponse {
 
+    public String status = "SUCCES";
+
     private List<?> data;
 
     private Short page;
