@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import api.carreras.events.domain.response.EventResponse;
+
 public interface EventRepository {
 
-    public Page<Event> findAll(Pageable pageable);
+    public Page<Event> findAll(Pageable pageable, Event request);
 
-    public Event findById(Long eventId);
-
-    public Event findByLocation(String eventLocation);
+    public Event findByEventId(Long eventId);
 
     public Event save(Event event) throws Exception;
 

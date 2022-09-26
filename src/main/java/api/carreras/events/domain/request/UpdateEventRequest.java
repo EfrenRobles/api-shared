@@ -19,6 +19,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class UpdateEventRequest {
 
     @Nullable
+    Long eventId;
+
+    @Nullable
     @Length(min = 10, max = 64, message = "The length of user name must be between 10 and 64 characters.")
     String eventDescription;
 
@@ -39,6 +42,14 @@ public class UpdateEventRequest {
         this.eventDescription = eventDescription;
         this.eventLocation = eventLocation;
         this.eventDate = eventDate;
+    }
+
+    public Long getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
     }
 
     public String getEventDescription() {

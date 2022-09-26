@@ -1,20 +1,23 @@
 package api.carreras.events.application;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.criterion.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import api.carreras.events.domain.Builder;
 import api.carreras.events.domain.Event;
 import api.carreras.events.domain.EventRepository;
 import api.carreras.events.domain.request.AddEventRequest;
 import api.carreras.events.domain.request.UpdateEventRequest;
 import api.carreras.events.domain.response.EventResponse;
+import api.carreras.shared.domain.Builder;
 import api.carreras.shared.domain.Logger;
 import api.carreras.shared.domain.exception.ServiceException;
 import api.carreras.shared.domain.response.OnResponse;
@@ -29,30 +32,48 @@ public class EventServiceImp implements EventService {
     }
 
     public static EventServiceImp build(EventRepository eventRepository) {
+
         return new EventServiceImp(eventRepository);
     }
 
     @Override
-    public ResponseEntity<?> getEventById(Long eventId) {
-        // TODO Auto-generated method stub
-        return null;
+    public ResponseEntity<?> getEventByEventId(Long eventId) throws Exception {
+
+        Event event = eventRepository.findByEventId(eventId);
+
+        if (event == null) {
+            throw new ServiceException("Event not found");
+        }
+
+        EventResponse response = mapToEventDto(event);
+
+        return OnResponse.onSuccess(response, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<?> getEventByLocation(String eventLocation) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public ResponseEntity<?> getEventList(
+        Short page,
+        Byte limit,
+        String sortBy,
+        String sortDir,
+        EventResponse request
+    ) {
 
-    @Override
-    public ResponseEntity<?> getEventList(Short page, Byte limit, String sortBy, String sortDir) {
+        Event event = Builder.set(Event.class)
+            .with(e -> e.setEventId(request.getEventId()))
+            .with(e -> e.setEventLocation(request.getEventLocation()))
+            .with(e -> e.setEventDescription(request.getEventDescription()))
+            .with(e -> e.setEventDate(request.getEventDate()))
+            .build();
 
         Sort sort = Sort.by(sortBy);
-        sort = (sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())) ? sort.ascending() : sort.descending();
+
+        if (sortDir.equalsIgnoreCase("DESC")) {
+            sort = Sort.by(Direction.DESC, sortBy);
+        }
 
         Pageable pageable = PageRequest.of(page, limit, sort);
-
-        Page<Event> events = eventRepository.findAll(pageable);
+        Page<Event> events = eventRepository.findAll(pageable, event);
 
         List<Event> eventList = events.getContent();
         List<EventResponse> content = eventList
@@ -82,12 +103,14 @@ public class EventServiceImp implements EventService {
             .build();
 
         event = eventRepository.save(event);
-        
+
         if (event == null) {
             throw new ServiceException("The event location and description are already registered");
         }
-        
-        return OnResponse.onSuccess(event, HttpStatus.CREATED);
+
+        EventResponse response = mapToEventDto(event);
+
+        return OnResponse.onSuccess(response, HttpStatus.CREATED);
     }
 
     @Override

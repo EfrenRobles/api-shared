@@ -1,5 +1,7 @@
 package api.carreras.events.infrastructure.controller;
 
+import java.sql.Date;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import api.carreras.events.application.EventService;
 import api.carreras.events.domain.request.AddEventRequest;
 import api.carreras.events.domain.request.UpdateEventRequest;
+import api.carreras.events.domain.response.EventResponse;
+import api.carreras.shared.domain.Builder;
 import api.carreras.shared.infrastructure.PaginationConstant;
 
 @RestController
@@ -30,32 +34,39 @@ public class EventController {
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping
     public Object getEventList(
-        @RequestParam(value = "page", defaultValue = PaginationConstant.PAGE_DEFAULT_VALUE, required = false) Short page,
-        @RequestParam(value = "limit", defaultValue = PaginationConstant.LIMIT_DEFAULT_VALUE, required = false) Byte limit,
+        @RequestParam(value = "page", defaultValue = PaginationConstant.PAGE_DEFAULT, required = false) Short page,
+        @RequestParam(value = "limit", defaultValue = PaginationConstant.LIMIT_DEFAULT, required = false) Byte limit,
         @RequestParam(value = "sortBy", defaultValue = "eventId", required = false) String sortBy,
-        @RequestParam(value = "sortDir", defaultValue = PaginationConstant.SORT_ASC, required = false) String sortDir
+        @RequestParam(value = "sortDir", defaultValue = PaginationConstant.SORT_ASC, required = false) String sortDir,
+        @RequestParam(value = "eventId", required = false) Long eventId,
+        @RequestParam(value = "eventLocation", required = false) String eventLocation,
+        @RequestParam(value = "eventDescription", required = false) String eventDescription,
+        @RequestParam(value = "eventDate", required = false) Date eventDate
+
     ) {
+        EventResponse request = Builder.set(EventResponse.class)
+            .with(e -> e.setEventId(eventId))
+            .with(e -> e.setEventLocation(eventLocation))
+            .with(e -> e.setEventDescription(eventDescription))
+            .with(e -> e.setEventDate(eventDate))
+            .build();
 
-        return eventService.getEventList(page, limit, sortBy, sortDir);
+        return eventService.getEventList(page, limit, sortBy, sortDir, request);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(params = "eventId")
-    public Object getEventByEventId(@RequestParam(value = "eventId") Long eventId) {
+    public Object getEventByEventId(@RequestParam(value = "eventId") Long eventId) throws Exception {
 
-        return eventService.getEventById(eventId);
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping(params = "eventLocation")
-    public Object getEventByEventLocation(@RequestParam(value = "eventLocation") String eventLocation) {
-
-        return eventService.getEventByLocation(eventLocation);
+        return eventService.getEventByEventId(eventId);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public Object postEvent(@Valid @RequestBody AddEventRequest event) throws Exception {
+    public Object postEvent(
+        @Valid
+        @RequestBody AddEventRequest event
+    ) throws Exception {
 
         return eventService.addEvent(event);
     }
@@ -64,7 +75,8 @@ public class EventController {
     @PatchMapping
     public Object patchEvent(
         @RequestParam(value = "eventId") Long eventId,
-        @Valid @RequestBody UpdateEventRequest event
+        @Valid
+        @RequestBody UpdateEventRequest event
     ) throws Exception {
 
         return eventService.updateEvent(eventId, event);

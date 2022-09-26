@@ -15,6 +15,7 @@ public class EventConfiguration {
 
     @Bean
     EventService eventService(EventReposirotyImpl repo) {
+        
         return EventServiceImp.build(repo);
     }
 }

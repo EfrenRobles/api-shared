@@ -10,11 +10,9 @@ import api.carreras.events.domain.response.EventResponse;
 
 public interface EventService {
 
-    public ResponseEntity<?> getEventById(Long eventId);
+    public ResponseEntity<?> getEventByEventId(Long eventId) throws Exception;
 
-    public ResponseEntity<?> getEventByLocation(String eventLocation);
-
-    public ResponseEntity<?> getEventList(Short page, Byte limit, String sortBy, String sortDir);
+    public ResponseEntity<?> getEventList(Short page, Byte limit, String sortBy, String sortDir, EventResponse request);
 
     public ResponseEntity<?> addEvent(AddEventRequest data) throws Exception;
 
