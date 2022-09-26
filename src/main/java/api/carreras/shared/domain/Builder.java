@@ -1,8 +1,6 @@
-package api.carreras.events.domain;
+package api.carreras.shared.domain;
 
 import java.util.function.Consumer;
-
-import api.carreras.shared.domain.Logger;
 
 /* base on
  * https://howtocodetutorial.wordpress.com/generic-builder-pattern-in-java-8/
@@ -19,6 +17,10 @@ public class Builder<T> {
         }
     }
 
+    public static <T> Builder<T> set(Class<T> clazz) {
+        return new Builder<>(clazz);
+    }
+
     public Builder<T> with(Consumer<T> setter) {
         setter.accept(instance);
 
@@ -27,9 +29,5 @@ public class Builder<T> {
 
     public T build() {
         return instance;
-    }
-
-    public static <T> Builder<T> set(Class<T> clazz) {
-        return new Builder<>(clazz);
     }
 }
