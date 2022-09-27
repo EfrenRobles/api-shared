@@ -1,4 +1,4 @@
-package api.carreras.shared.domain.exception;
+package api.shared.domain.exception;
 
 public class RepositoryException extends RuntimeException {
 

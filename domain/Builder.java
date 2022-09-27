@@ -1,4 +1,4 @@
-package api.carreras.shared.domain;
+package api.shared.domain;
 
 import java.util.function.Consumer;
 

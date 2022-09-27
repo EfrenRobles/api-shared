@@ -1,4 +1,4 @@
-package api.carreras.shared.infrastructure.config;
+package api.shared.infrastructure.config;
 
 import org.springframework.core.env.ConfigurableEnvironment;
 

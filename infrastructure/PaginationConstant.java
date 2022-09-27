@@ -1,4 +1,4 @@
-package api.carreras.shared.infrastructure;
+package api.shared.infrastructure;
 
 public abstract class PaginationConstant {
     public static final String PAGE_DEFAULT = "0";

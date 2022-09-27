@@ -1,4 +1,4 @@
-package api.carreras.shared.infrastructure.persistence;
+package api.shared.infrastructure.persistence;
 
 import java.util.List;
 
@@ -13,8 +13,6 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-
-import api.carreras.events.domain.Event;
 
 public class Pagination<E> {
     private EntityManager entityManager;

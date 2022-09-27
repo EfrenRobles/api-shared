@@ -1,4 +1,4 @@
-package api.carreras.shared.domain.response;
+package api.shared.domain.response;
 
 enum ResponseEnum {
     

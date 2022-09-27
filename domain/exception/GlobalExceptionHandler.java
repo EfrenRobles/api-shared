@@ -1,4 +1,4 @@
-package api.carreras.shared.domain.exception;
+package api.shared.domain.exception;
 
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import api.carreras.shared.domain.Logger;
-import api.carreras.shared.domain.response.OnResponse;
+import api.shared.domain.Logger;
+import api.shared.domain.response.OnResponse;
 
 import java.util.ArrayList;
 import java.util.List;

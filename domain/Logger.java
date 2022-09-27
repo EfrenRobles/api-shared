@@ -1,6 +1,6 @@
-package api.carreras.shared.domain;
+package api.shared.domain;
 
-import api.carreras.shared.infrastructure.config.EnvConfig;
+import api.shared.infrastructure.config.EnvConfig;
 
 public class Logger {
 
