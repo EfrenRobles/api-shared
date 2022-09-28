@@ -1,4 +1,4 @@
-package api.shared.domain.application;
+package api.shared.application;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
