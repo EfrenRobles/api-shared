@@ -1,7 +1,6 @@
 package api.shared.infrastructure.persistence;
 
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;

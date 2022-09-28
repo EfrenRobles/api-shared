@@ -1,6 +1,5 @@
 package api.shared.infrastructure.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -21,14 +20,14 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
-  
+
 //    private final UserDetailsService userDetailsService;
 //
 //    public SecurityConfig(UserDetailsService userDetailsService) {
 //        super();
 //        this.userDetailsService = userDetailsService;
 //    }
-    
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
