@@ -23,6 +23,14 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+    @ExceptionHandler(ScopeException.class)
+    public ResponseEntity<Object> scopeErrorHandler(Exception e) {
+        List<String> errors = new ArrayList<>();
+        errors.add(e.getMessage());
+
+        return OnResponse.onError(errors, HttpStatus.FORBIDDEN);
+    }
+    
     @ExceptionHandler(ServiceException.class)
     public ResponseEntity<Object> serviceErrorHandler(Exception e) {
         List<String> errors = new ArrayList<>();
