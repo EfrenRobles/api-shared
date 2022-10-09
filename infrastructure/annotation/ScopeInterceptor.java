@@ -22,6 +22,7 @@ import api.shared.infrastructure.gateway.AuthGateway;
 public class ScopeInterceptor {
     private final String HEADER = "Authorization";
     private final String PREFIX = "Bearer ";
+    private final String SUPER_VIEWABILITY_ALL = "SUPER.VIEWABILITY.ALL";
 
     @Autowired
     private AuthGateway authGateway;
@@ -41,7 +42,7 @@ public class ScopeInterceptor {
             return proceedingJoinPoint.proceed();
         }
 
-        throw new ScopeException("The user has not premission");
+        throw new ScopeException("Your request requires higher privileges that provided.");
 
     }
 
@@ -49,7 +50,7 @@ public class ScopeInterceptor {
 
         return !scopes
             .parallelStream()
-            .filter(s -> s.equals(scopeValue))
+            .filter(s -> s.equals(scopeValue) || s.equals(SUPER_VIEWABILITY_ALL))
             .findFirst()
             .isEmpty();
     }
