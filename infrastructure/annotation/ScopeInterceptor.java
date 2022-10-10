@@ -2,7 +2,6 @@ package api.shared.infrastructure.annotation;
 
 import java.lang.reflect.Method;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -20,8 +19,6 @@ import api.shared.infrastructure.gateway.AuthGateway;
 @Aspect
 @Component
 public class ScopeInterceptor {
-    private final String HEADER = "Authorization";
-    private final String PREFIX = "Bearer ";
     private final String SUPER_VIEWABILITY_ALL = "SUPER.VIEWABILITY.ALL";
 
     @Autowired
@@ -37,7 +34,7 @@ public class ScopeInterceptor {
             return proceedingJoinPoint.proceed();
         }
 
-        if (can(authGateway.getScopes(request), getScopeValue(proceedingJoinPoint))) {
+        if (can(authGateway.getScopes(), getScopeValue(proceedingJoinPoint))) {
 
             return proceedingJoinPoint.proceed();
         }
@@ -47,6 +44,10 @@ public class ScopeInterceptor {
     }
 
     private boolean can(List<String> scopes, String scopeValue) {
+
+        if (scopes == null) {
+            return false;
+        }
 
         return !scopes
             .parallelStream()
