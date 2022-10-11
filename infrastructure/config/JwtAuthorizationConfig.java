@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import api.shared.domain.Logger;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
@@ -50,6 +51,7 @@ public class JwtAuthorizationConfig extends OncePerRequestFilter {
 
             SecurityContextHolder.clearContext();
         } catch (Exception e) {
+            Logger.log(e.getMessage());
             SecurityContextHolder.clearContext();
         } finally {
             chain.doFilter(request, response);
